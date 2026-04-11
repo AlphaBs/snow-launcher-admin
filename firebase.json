@@ -1,0 +1,30 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/servers/**",
+        "run": {
+          "serviceId": "snow-launcher-hub-function",
+          "region": "asia-northeast3"
+        }
+      },
+      {
+        "source": "/api/**",
+        "run": {
+          "serviceId": "snow-launcher-hub-function",
+          "region": "asia-northeast3"
+        }
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

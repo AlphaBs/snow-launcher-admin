@@ -1,42 +1,44 @@
-# t
+# Snow Launcher Admin
 
-This template should help get you started developing with Vue 3 in Vite.
+Snow Launcher 관리자 대시보드 (Vue 3 + TypeScript + Tailwind CSS)
 
-## Recommended IDE Setup
+## 개발 환경
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## 환경 변수
 
-```sh
-pnpm build
+`.env.local` 파일을 생성하고 아래 변수를 설정하세요.
+
+```env
+VITE_API_BASE_URL=https://your-api-server.com
 ```
+
+## 배포
+
+Firebase Hosting으로 배포합니다. 빌드 후 `./public` 디렉토리에 출력된 파일이 배포됩니다.
+
+### 사전 준비
+
+- [Firebase CLI](https://firebase.google.com/docs/cli) 설치
+- Firebase 로그인: `firebase login`
+
+### 배포 명령어
+
+```bash
+pnpm deploy
+```
+
+빌드(타입 체크 포함)와 Firebase Hosting 배포를 한 번에 실행합니다.
+
+### 배포 URL
+
+- https://snow-launcher.web.app
+- https://snow-launcher.firebaseapp.com
+
+### API 라우팅
+
+`/servers/**` 및 `/api/**` 경로는 Cloud Run 서비스(`snow-launcher-hub-function`, asia-northeast3)로 프록시됩니다.
