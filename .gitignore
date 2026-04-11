@@ -38,6 +38,10 @@ __screenshots__/
 # Vite
 *.timestamp-*-*.mjs
 
+# Build output
+/public/assets/
+/public/index.html
+
 # Environment
 .env
 .env.*
