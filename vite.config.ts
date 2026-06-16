@@ -15,6 +15,7 @@ export default defineConfig({
   publicDir: false,
   build: {
     outDir: 'public',
+    emptyOutDir: true,
   },
   resolve: {
     alias: {
