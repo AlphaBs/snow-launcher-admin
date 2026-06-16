@@ -10,7 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "api:generate": "openapi-typescript ./openapi.json -o ./src/api/schema.d.ts",
-    "deploy": "pnpm build && firebase deploy --only hosting"
+    "deploy": "pnpm build && cd ../snowfrost-admin-gateway && pnpm run deploy"
   },
   "dependencies": {
     "openapi-fetch": "^0.17.0",
