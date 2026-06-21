@@ -37,8 +37,4 @@ jobs:
           service_account: snow-launcher-admin-gh-ci@snow-launcher.iam.gserviceaccount.com
 
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          projectId: snow-launcher
-          channelId: live
+        run: pnpm exec firebase deploy --only hosting --project snow-launcher
