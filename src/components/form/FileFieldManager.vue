@@ -12,34 +12,12 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:modelValue': [value: { fields?: Record<string, { maxSizeBytes?: number }> }]
   'auth-error': []
 }>()
 
-const apiClient = computed(() => props.admin ? adminClient : client)
-
 const fields = computed(() => props.modelValue.fields ?? {})
 
-// Schema mutations
-function updateMaxSize(name: string, maxSizeBytes: number | null) {
-  const updated = { ...fields.value, [name]: { maxSizeBytes: maxSizeBytes ?? undefined } }
-  emit('update:modelValue', { ...props.modelValue, fields: updated })
-}
-
-function removeField(name: string) {
-  if (!confirm(`"${name}" 파일 필드를 삭제하시겠습니까?`)) return
-  const copy = { ...fields.value }
-  delete copy[name]
-  emit('update:modelValue', { ...props.modelValue, fields: copy })
-}
-
-const newFieldName = ref('')
-function addField() {
-  const name = newFieldName.value.trim()
-  if (!name || name in fields.value) return
-  emit('update:modelValue', { ...props.modelValue, fields: { ...fields.value, [name]: { maxSizeBytes: 0 } } })
-  newFieldName.value = ''
-}
+const apiClient = computed(() => props.admin ? adminClient : client)
 
 // Upload state
 const uploading = ref<Record<string, boolean>>({})
@@ -181,32 +159,12 @@ async function handleDeleteFile(fieldName: string) {
       :key="name"
       class="bg-gray-50 rounded px-4 py-3 space-y-2"
     >
-      <!-- Header: name + admin controls + remove -->
+      <!-- Header: name -->
       <div class="flex items-center gap-3">
         <span class="text-sm font-medium">{{ name }}</span>
         <span v-if="field.maxSizeBytes" class="text-xs text-gray-400">
           최대 {{ formatBytes(field.maxSizeBytes) }}
         </span>
-        <div v-if="admin" class="flex items-center gap-2 ml-auto">
-          <label class="text-xs text-gray-500">최대 크기 (바이트)</label>
-          <input
-            type="number"
-            :value="field.maxSizeBytes ?? 0"
-            min="0"
-            class="w-28 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            @input="updateMaxSize(String(name), Number(($event.target as HTMLInputElement).value) || null)"
-          />
-          <button
-            type="button"
-            class="p-1 rounded text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-            title="필드 삭제"
-            @click="removeField(String(name))"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-        </div>
       </div>
 
       <!-- Preview -->
@@ -253,28 +211,7 @@ async function handleDeleteFile(fieldName: string) {
       </p>
     </div>
 
-    <!-- Add field (admin only) -->
-    <div v-if="admin" class="flex gap-2 items-end pt-2 border-t">
-      <div class="flex-1">
-        <label class="block text-xs text-gray-500 mb-1">새 파일 필드 이름</label>
-        <input
-          v-model="newFieldName"
-          type="text"
-          class="w-full border rounded px-3 py-1.5 text-sm"
-          placeholder="필드 이름"
-          @keyup.enter="addField"
-        />
-      </div>
-      <button
-        type="button"
-        class="bg-gray-200 px-3 py-1.5 rounded text-sm hover:bg-gray-300"
-        @click="addField"
-      >
-        추가
-      </button>
-    </div>
-
-    <p v-if="!admin && !password" class="text-xs text-gray-500">
+<p v-if="!admin && !password" class="text-xs text-gray-500">
       파일 업로드/삭제를 위해 인스턴스 비밀번호를 입력해주세요.
     </p>
   </div>
