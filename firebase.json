@@ -8,6 +8,13 @@
     ],
     "rewrites": [
       {
+        "source": "/servers",
+        "run": {
+          "serviceId": "snow-launcher-hub-function",
+          "region": "asia-northeast3"
+        }
+      },
+      {
         "source": "/servers/**",
         "run": {
           "serviceId": "snow-launcher-hub-function",
