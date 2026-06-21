@@ -1,2 +1,6 @@
 overrides:
   uuid: "9.0.1"
+
+onlyBuiltDependencies:
+  - protobufjs
+  - re2
